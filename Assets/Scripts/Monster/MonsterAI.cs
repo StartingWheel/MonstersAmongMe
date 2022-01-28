@@ -99,39 +99,47 @@ public class MonsterAI : MonoBehaviour
 
     private IEnumerator OnStun()
     {
-        yield return new WaitForSecondsRealtime(_stunTime);
+        agent.enabled = false;
+        Debug.Log("start");
+        yield return new WaitForSeconds(_stunTime);
         getHit = false;
+        agent.enabled = true;
+        Debug.Log("end");
+
+        ChooseNewWalkPosition();
+        agent.SetDestination(_choosenWalkPosition);
     }
 
     void Update()
     {
-        // -------------------- Если преследует игрока -------------------- //
-        if (isPursuitMode)
+        if (!getHit)
         {
-            agent.SetDestination(playerTransform.position);
-            Vector3 heading = transform.position - player.transform.position;
-            if (heading.sqrMagnitude <= _distance * _distance)
+            // -------------------- Если преследует игрока -------------------- //
+            if (isPursuitMode)
             {
-                if (player.isImba)
+                agent.SetDestination(playerTransform.position);
+                Vector3 heading = transform.position - player.transform.position;
+                if (heading.sqrMagnitude <= _distance * _distance)
                 {
-                    getHit = true;
-                    StartCoroutine(OnStun());
+                    if (player.isImba)
+                    {
+                        getHit = true;
+                        StartCoroutine(OnStun());
+                    }
+                    isCatch = true;
+                    EndPursuit();
                 }
-                isCatch = true;
-                EndPursuit();
-            }
 
-            if(player.isHidden) //если игрок спрятался
-            {
-                EndPursuit();
-            }
+                if (player.isHidden) //если игрок спрятался
+                {
+                    EndPursuit();
+                }
 
-        } else
-        // ---------------------- Если не преследует ---------------------- //
-        {
-            if(!getHit)
+            }
+            else
+            // ---------------------- Если не преследует ---------------------- //
             {
-                if(WalkPositionCompleted())
+                if (WalkPositionCompleted())
                 {
                     ChooseNewWalkPosition();
                     agent.SetDestination(_choosenWalkPosition);
@@ -140,8 +148,8 @@ public class MonsterAI : MonoBehaviour
                 {
                     StartPursuit(); //Переход в режим преследования
                 }
+
             }
-            
         }
     }
 }

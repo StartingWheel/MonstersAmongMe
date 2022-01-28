@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _charController = GetComponent<CharacterController>();
-        _NormalSpeed = speed;
     }
 
     // Update is called once per frame
@@ -21,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift))
         {
+            _NormalSpeed = speed;
             speed = _NormalSpeed * 1.5f;
 
         }

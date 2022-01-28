@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
     public void Hide(Vector3 hidePosition)
     {
         isHidden = true;
-        _beforeHidePosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        _beforeHidePosition = new Vector3(transform.position.x-1, transform.position.y, transform.position.z-1);
         transform.Rotate(0, 180, 0);
         transform.position = new Vector3(hidePosition.x,transform.position.y,hidePosition.z);
     }
@@ -75,9 +75,12 @@ public class Player : MonoBehaviour
     public void UnHide()
     {
         isHidden = false;
-        _charController.Move(new Vector3(-(transform.position.x - _beforeHidePosition.x), 
+        GetComponent<CharacterController>().enabled = false;
+        transform.position = _beforeHidePosition;
+        GetComponent<CharacterController>().enabled = true;
+        /*_charController.Move(new Vector3(-(transform.position.x - _beforeHidePosition.x), 
             -(transform.position.y - _beforeHidePosition.y), 
-            -(transform.position.z - _beforeHidePosition.z)));
+            -(transform.position.z - _beforeHidePosition.z)));*/
     }
 
     public void FindHint()
@@ -101,9 +104,9 @@ public class Player : MonoBehaviour
     public void BeCatched()
     {
         Debug.Log("Catched");
-        _charController.Move(new Vector3(-(transform.position.x - _lastSave.x),
-            -(transform.position.y - _lastSave.y),
-            -(transform.position.z - _lastSave.z)));
+        GetComponent<CharacterController>().enabled = false;
+        transform.position = _lastSave;
+        GetComponent<CharacterController>().enabled = true;
     }
 
     // Start is called before the first frame update

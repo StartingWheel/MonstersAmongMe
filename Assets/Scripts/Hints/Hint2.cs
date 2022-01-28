@@ -22,6 +22,7 @@ public class Hint2 : MonoBehaviour, IPointerClickHandler
         {
             _text.enabled = false;
             _UIHinttext.text = _hintText;
+            _player.GetComponent<Player>().FindHint();
             _sc.Hint2On();
             Destroy(this.gameObject);
         }

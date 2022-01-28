@@ -7,7 +7,7 @@ public class ButtonsController : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadScene("GameDemo");
+        SceneManager.LoadScene("Playground");
     }
 
     public void ExitGame()

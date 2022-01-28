@@ -63,7 +63,6 @@ public class MirrorsController : MonoBehaviour
         {
             if (_mirrors[i] == null)
             {
-                Debug.Log("The window ¹" + i + " was destroied");
                 ushort posIndex;
                 posIndex = GetPositionIndex();
                 _mirrorsTransformIndexes[i] = posIndex;
