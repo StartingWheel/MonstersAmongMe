@@ -10,16 +10,24 @@ public class MainMonster : MonoBehaviour
     [SerializeField] private SceneController _sc;
 
     [SerializeField] private MonsterAI ai;
-
+    [SerializeField] private AudioSource _hitAudio;
     private int _maxHits;
 
     private int _hitsCount;
 
+    public void OnDestroy()
+    {
+        _hitAudio.Stop();
+    }
     private void Hit()
     {
-        Debug.Log("is Hit!");
+        _hitAudio.Play();
         _hitsCount++;
         player.ReturnToNormal();
+        if(_hitsCount == _maxHits-1)
+        {
+            _sc.KSc2On();
+        }
         if (_hitsCount==_maxHits)
         {
             Died();

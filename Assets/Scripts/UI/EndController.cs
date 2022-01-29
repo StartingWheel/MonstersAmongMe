@@ -5,13 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class EndController : MonoBehaviour
 {
+    [SerializeField] private SceneController _sc;
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("Avtors");
+            _sc.EndOff();
         }
     }
 }

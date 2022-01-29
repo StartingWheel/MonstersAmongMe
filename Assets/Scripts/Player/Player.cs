@@ -15,9 +15,11 @@ public class Player : MonoBehaviour
     [SerializeField] private int _hintsCount;
     [SerializeField] private Text keysText;
     [SerializeField] private SceneController _sc;
+    [SerializeField] private AudioSource _hiddenAudio;
+    [SerializeField] private AudioSource _audio;
 
     private CharacterController _charController;
-    public int countHints;
+    private int countHints;
 
     public bool isImba; //состояние игрока. false - в нормальном состоянии, true - после обращения
     public bool isHidden; //спрятан ли игрок
@@ -55,14 +57,14 @@ public class Player : MonoBehaviour
     // ======================== Состояние игрока в обращении ======================== //
     private IEnumerator OnImba()
     {
-        yield return new WaitForSecondsRealtime(imbaTime);
+        yield return new WaitForSeconds(imbaTime);
         ReturnToNormal();
     }
     //================================================================================//
 
     public IEnumerator ExitImba()
     {
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitForSeconds(2);
         StopCoroutine(_imbaCoroutine);
         ReturnToNormal();
     }
@@ -70,9 +72,10 @@ public class Player : MonoBehaviour
     public void Hide(Vector3 hidePosition)
     {
         isHidden = true;
-        _beforeHidePosition = new Vector3(transform.position.x-1, transform.position.y, transform.position.z-1);
+        _beforeHidePosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         transform.Rotate(0, 180, 0);
         transform.position = new Vector3(hidePosition.x,transform.position.y,hidePosition.z);
+        _hiddenAudio.Play();
     }
 
     public void UnHide()
@@ -81,11 +84,12 @@ public class Player : MonoBehaviour
         GetComponent<CharacterController>().enabled = false;
         transform.position = _beforeHidePosition;
         GetComponent<CharacterController>().enabled = true;
+        _hiddenAudio.Stop();
     }
 
     public void FindHint()
     {
-        Debug.Log("Find Hint");
+        _audio.Play();
         _lastSave = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         ++countHints;
 
@@ -131,6 +135,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
+            isHidden = false;
             BeCatched();
         }
         if (isHidden)

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.UI;
 
 public class Hint : MonoBehaviour, IPointerClickHandler
 {
@@ -10,10 +11,9 @@ public class Hint : MonoBehaviour, IPointerClickHandler
     [SerializeField] private float _distance;    //допустимое расстояние между игроком и местом для пряток, чтобы спрятаться 
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private float _textTime;
-    [SerializeField] private string _hintText;
     [SerializeField] private SceneController _sc;
-    [SerializeField] private TextMeshProUGUI _UIHinttext;
-
+    [SerializeField] private Image _hintImage;
+    [SerializeField] private Sprite _hintTexture;
     public void OnPointerClick(PointerEventData eventData)
     {
         //if (Input.GetMouseButtonDown(0))
@@ -23,7 +23,7 @@ public class Hint : MonoBehaviour, IPointerClickHandler
             {
                 _text.enabled = false;
                 _playerPl.FindHint();
-                _UIHinttext.text = _hintText;
+                _hintImage.sprite = _hintTexture;
                 _sc.HintOn();
                 Destroy(this.gameObject);
             }

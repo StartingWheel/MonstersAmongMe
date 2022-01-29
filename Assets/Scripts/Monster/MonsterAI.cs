@@ -15,6 +15,8 @@ public class MonsterAI : MonoBehaviour
     [SerializeField] private float _distance;  //расстояние с которого монстр ловит игрока
     [SerializeField] private float _stunTime;  //время оглушения
     [SerializeField] private List<Vector3> _walkPositions = new List<Vector3>(); //точки направления монстра 
+    [SerializeField] private AudioSource _sound;
+    [SerializeField] private AudioSource _scream;
 
     private Animator myAnimator; //анимация монстра
 
@@ -24,6 +26,12 @@ public class MonsterAI : MonoBehaviour
 
     public bool isCatch;  //поймал ли игрока 
     public bool getHit; // получил урон
+
+    public void OnDestroy()
+    {
+        _sound.Stop();
+        _scream.Stop();
+    }
 
     void Start()
     {
@@ -58,6 +66,20 @@ public class MonsterAI : MonoBehaviour
                 return true;
             }
         }
+        if (Physics.SphereCast(new Ray(transform.position, transform.right*(-1)), 0.20f, out hit))
+        {
+            if (hit.transform.gameObject.GetComponent<Player>())
+            {
+                return true;
+            }
+        }
+        if (Physics.SphereCast(new Ray(transform.position, transform.right), 0.20f, out hit))
+        {
+            if (hit.transform.gameObject.GetComponent<Player>())
+            {
+                return true;
+            }
+        }
         return false;
     }
     private bool IsSeeHiddenPrey()
@@ -87,6 +109,7 @@ public class MonsterAI : MonoBehaviour
         isPursuitMode = true; //переход в режим преседования 
         agent.speed = runSpeed; //переход на бег
         myAnimator.Play("Run");
+        _scream.Play();
     }
     //==============================================================================================//
 
@@ -94,10 +117,12 @@ public class MonsterAI : MonoBehaviour
     private void EndPursuit()
     {
         isPursuitMode = false;
+        transform.Rotate(0, 180, 0);
         if (!getHit) myAnimator.Play("Walk");
         agent.speed = normalSpeed; //переход на шаг
         ChooseNewWalkPosition();
         agent.SetDestination(_choosenWalkPosition);
+        _scream.Stop();
     }
     //==============================================================================================//
 
@@ -105,6 +130,7 @@ public class MonsterAI : MonoBehaviour
     private IEnumerator OnStun()
     {
         myAnimator.Play("Stun");
+        _sound.Stop();
         agent.enabled = false;
         yield return new WaitForSeconds(_stunTime);
         getHit = false;
@@ -112,6 +138,7 @@ public class MonsterAI : MonoBehaviour
         myAnimator.Play("Walk");
         ChooseNewWalkPosition();
         agent.SetDestination(_choosenWalkPosition);
+        _sound.Play();
     }
 
     void Update()

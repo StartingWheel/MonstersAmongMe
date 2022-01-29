@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5297661880876336514}
   - component: {fileID: 5297661880876336517}
   - component: {fileID: 5297661880876336516}
-  - component: {fileID: 6148826010376146523}
   m_Layer: 0
   m_Name: Hint 2
   m_TagString: Untagged
@@ -65,25 +64,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineWidth: 10
---- !u!114 &6148826010376146523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5297661880876336518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2951f640a9f73ed489b7c186979ac105, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _player: {fileID: 0}
-  _distance: 2
-  _text: {fileID: 0}
-  _textTime: 3
-  _hintText: "\u041F\u043E\u0434\u0441\u043A\u0430\u0437\u043A\u0430 1"
-  _sc: {fileID: 0}
-  _UIHinttext: {fileID: 0}
 --- !u!1 &5297661881394351523
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,12 @@ public class SubMonster : MonoBehaviour
     [SerializeField] private float runSpeed; // во время бега
     [SerializeField] private Player player; //игрок 
     [SerializeField] private MonsterAI ai;
+    [SerializeField] private AudioSource _hitAudio;
+
+    public void OnDestroy()
+    {
+        _hitAudio.Stop();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +30,7 @@ public class SubMonster : MonoBehaviour
             if (ai.getHit)
             {
                 player.GetKey();
+                _hitAudio.Play();
                 StartCoroutine(player.ExitImba());
             }
             else
