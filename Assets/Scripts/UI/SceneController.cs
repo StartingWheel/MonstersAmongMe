@@ -10,6 +10,10 @@ public class SceneController : MonoBehaviour
     [SerializeField] private GameObject _hint;
     [SerializeField] private GameObject _hint2;
     [SerializeField] private GameObject _exit;
+    [SerializeField] private GameObject _end1;
+    [SerializeField] private GameObject _end2;
+    [SerializeField] private GameObject _end3;
+    [SerializeField] private GameObject _loose;
 
     private bool _isMap;
     private bool _isExit;
@@ -21,9 +25,14 @@ public class SceneController : MonoBehaviour
         _hint.SetActive(false);
         _hint2.SetActive(false);
         _exit.SetActive(false);
+        _end1.SetActive(false);
+        _end2.SetActive(false);
+        _end3.SetActive(false);
+        _loose.SetActive(false);
 
         _isMap = false;
         _isExit = false;
+
     }
 
 
@@ -90,6 +99,30 @@ public class SceneController : MonoBehaviour
     {
         _hint2.SetActive(false);
         PauseOff();
+    }
+
+    public void End1On()
+    {
+        _end1.SetActive(true);
+        PauseOn();
+    }
+
+    public void End2On()
+    {
+        _end2.SetActive(true);
+        PauseOn();
+    }
+
+    public void End3On()
+    {
+        _end3.SetActive(true);
+        PauseOn();
+    }
+
+    public void LooseOn()
+    {
+        _loose.SetActive(true);
+        PauseOn();
     }
 
     private void PauseOn()

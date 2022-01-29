@@ -6,6 +6,7 @@ using TMPro;
 public class Hint : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private GameObject _player; //игрок
+    [SerializeField] private Player _playerPl;
     [SerializeField] private float _distance;    //допустимое расстояние между игроком и местом для пряток, чтобы спрятаться 
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private float _textTime;
@@ -21,7 +22,7 @@ public class Hint : MonoBehaviour, IPointerClickHandler
             if (heading.sqrMagnitude <= _distance * _distance)
             {
                 _text.enabled = false;
-                _player.GetComponent<Player>().FindHint();
+                _playerPl.FindHint();
                 _UIHinttext.text = _hintText;
                 _sc.HintOn();
                 Destroy(this.gameObject);

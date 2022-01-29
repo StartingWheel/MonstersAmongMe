@@ -12,7 +12,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float imbaSpeed = 10f;  // скорость персонажа после обращения
 
     [SerializeField] private float imbaTime = 5f;   // время обращения в секундах
+    [SerializeField] private int _hintsCount;
     [SerializeField] private Text keysText;
+    [SerializeField] private SceneController _sc;
+
     private CharacterController _charController;
     public int countHints;
 
@@ -78,13 +81,11 @@ public class Player : MonoBehaviour
         GetComponent<CharacterController>().enabled = false;
         transform.position = _beforeHidePosition;
         GetComponent<CharacterController>().enabled = true;
-        /*_charController.Move(new Vector3(-(transform.position.x - _beforeHidePosition.x), 
-            -(transform.position.y - _beforeHidePosition.y), 
-            -(transform.position.z - _beforeHidePosition.z)));*/
     }
 
     public void FindHint()
     {
+        Debug.Log("Find Hint");
         _lastSave = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         ++countHints;
 
@@ -92,7 +93,13 @@ public class Player : MonoBehaviour
 
     public void Died()
     {
-        Debug.Log("GAME OVER");
+        if (countHints >= _hintsCount)
+        {
+            _sc.End2On();
+        } else
+        {
+            _sc.LooseOn();
+        }
     }
 
     public void GetKey()
@@ -122,6 +129,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            BeCatched();
+        }
         if (isHidden)
         {
             if (Input.GetMouseButtonDown(0))

@@ -7,6 +7,7 @@ public class MainMonster : MonoBehaviour
     [SerializeField] private List<float> speed = new List<float>();    //обычная скороссть 
     [SerializeField] private List<float> runSpeed = new List<float>(); // во время бега
     [SerializeField] private Player player; //игрок 
+    [SerializeField] private SceneController _sc;
 
     [SerializeField] private MonsterAI ai;
 
@@ -30,7 +31,7 @@ public class MainMonster : MonoBehaviour
 
     private void Died()
     {
-        Debug.Log("Mum is died!");
+        _sc.End1On();
     }
 
     // Start is called before the first frame update

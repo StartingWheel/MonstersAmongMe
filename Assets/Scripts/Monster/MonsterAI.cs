@@ -14,9 +14,11 @@ public class MonsterAI : MonoBehaviour
     [SerializeField] private Transform playerTransform;   //позиция игрока
     [SerializeField] private float _distance;  //расстояние с которого монстр ловит игрока
     [SerializeField] private float _stunTime;  //время оглушения
+    [SerializeField] private List<Vector3> _walkPositions = new List<Vector3>(); //точки направления монстра 
 
-    [SerializeField] private List<Vector3> _walkPositions = new List<Vector3>();
-    private Vector3 _choosenWalkPosition;
+    private Animator myAnimator; //анимация монстра
+
+    private Vector3 _choosenWalkPosition; //выбранное направление
     
     public bool isPursuitMode; //включен ли режим преследования
 
@@ -27,6 +29,7 @@ public class MonsterAI : MonoBehaviour
     {
         isCatch = false;
         getHit = false;
+        myAnimator = GetComponent<Animator>();
         EndPursuit();
     }
 
@@ -83,6 +86,7 @@ public class MonsterAI : MonoBehaviour
     {
         isPursuitMode = true; //переход в режим преседования 
         agent.speed = runSpeed; //переход на бег
+        myAnimator.Play("Run");
     }
     //==============================================================================================//
 
@@ -90,6 +94,7 @@ public class MonsterAI : MonoBehaviour
     private void EndPursuit()
     {
         isPursuitMode = false;
+        if (!getHit) myAnimator.Play("Walk");
         agent.speed = normalSpeed; //переход на шаг
         ChooseNewWalkPosition();
         agent.SetDestination(_choosenWalkPosition);
@@ -99,13 +104,12 @@ public class MonsterAI : MonoBehaviour
 
     private IEnumerator OnStun()
     {
+        myAnimator.Play("Stun");
         agent.enabled = false;
-        Debug.Log("start");
         yield return new WaitForSeconds(_stunTime);
         getHit = false;
         agent.enabled = true;
-        Debug.Log("end");
-
+        myAnimator.Play("Walk");
         ChooseNewWalkPosition();
         agent.SetDestination(_choosenWalkPosition);
     }
